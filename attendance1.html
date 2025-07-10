@@ -28,29 +28,37 @@
     <option>Check out</option>
   </select><br><br>
 
-  <button onclick="submitAttendance()">Submit Attendance</button>
+  <button onclick="testClick()">Submit Attendance</button>
 
   <script>
     const API_KEY = 'AIzaSyCGZzKjYXB1Egttf07R3VCZotCEPFONXOA';
+
+    function testClick() {
+      alert("✅ Button clicked!");
+      submitAttendance();
+    }
 
     function submitAttendance() {
       const empName = document.getElementById('employeeName').value;
       const checkType = document.getElementById('checkType').value;
 
       if (!empName || !checkType) {
-        alert('Please select employee and check type');
+        alert('⚠️ Please select employee and check type');
         return;
       }
 
       if (navigator.geolocation) {
+        alert("📍 Getting location...");
         navigator.geolocation.getCurrentPosition(position => {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
+          alert(`📌 Location: ${lat}, ${lng}`);
 
           fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_KEY}`)
             .then(response => response.json())
             .then(data => {
               const address = data.results[0]?.formatted_address || 'Unknown Address';
+              alert("📬 Address: " + address);
 
               const formURL = 'https://docs.google.com/forms/d/e/1FAIpQLScVM2xlUd7Q6MulCSAE1LKXshnQtDmGym9sBYl_Y0RLMUryaw/viewform';
               const params = new URLSearchParams({
@@ -62,12 +70,12 @@
 
               window.open(`${formURL}?${params.toString()}`, '_blank');
             })
-            .catch(() => alert('Failed to fetch address.'));
-        }, () => {
-          alert('Geolocation permission denied.');
+            .catch(() => alert('❌ Failed to fetch address.'));
+        }, (error) => {
+          alert('❌ Geolocation error: ' + error.message);
         });
       } else {
-        alert('Geolocation not supported by your browser.');
+        alert('❌ Geolocation not supported by your browser.');
       }
     }
   </script>
