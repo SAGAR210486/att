@@ -20,12 +20,16 @@
     <option>Sanjay</option>
     <option>Swapnil</option>
     <option>Swati</option>
+    <option>Vishal Alhat</option>
+    <option>Asmita Jadhav</option>
+    <option>Priyanka Jadhav</option>
+    <option>Sagar Gupta</option>
   </select><br><br>
 
   <select id="checkType">
     <option value="">Select Check Type</option>
     <option>Check in</option>
-  
+    <option>Check out</option>
   </select><br><br>
 
   <button onclick="submitAttendance()">Submit Attendance</button>
@@ -51,14 +55,12 @@
             const lng = position.coords.longitude;
             alert(`📌 Your coordinates: ${lat}, ${lng}`);
 
-            // Reverse geocode
             fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_KEY}`)
               .then(response => response.json())
               .then(data => {
                 const address = data.results[0]?.formatted_address || 'Unknown Address';
                 alert(`📬 Address: ${address}`);
 
-                // Open Google Form
                 const formURL = 'https://docs.google.com/forms/d/e/1FAIpQLScVM2xlUd7Q6MulCSAE1LKXshnQtDmGym9sBYl_Y0RLMUryaw/viewform';
                 const params = new URLSearchParams({
                   'entry.6835351': empName,
